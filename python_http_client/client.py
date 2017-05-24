@@ -10,7 +10,8 @@ try:
 except ImportError:
     # Python 2
     import urllib2 as urllib
-    from urllib import urlencode,HTTPError
+    from urllib2 import HTTPError
+    from urllib import urlencode
 
 
 class Response(object):
