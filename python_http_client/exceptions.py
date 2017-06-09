@@ -3,7 +3,8 @@ class HTTPError(Exception):
 	def __init__(self,error):
 		self.code = error.code
 		self.reason = error.reason
-		#self.headers = error.headers
+		self.body = error.read()
+		self.headers = error.hdrs
 
 class BadRequestsError(HTTPError):
 	pass
@@ -35,6 +36,9 @@ class InternalServerError(HTTPError):
 class ServiceUnavailableError(HTTPError):
 	pass
 
+class GatewayTimeoutError(HTTPError):
+	pass
+
 err_dict = { 	400 : BadRequestsError,
 				401 : UnauthorizedError,
 				403 : ForbiddenError,
@@ -44,10 +48,13 @@ err_dict = { 	400 : BadRequestsError,
 				415 : UnsupportedMediaTypeError,
 				429 : TooManyRequestsError,
 				500 : InternalServerError,
-				503 : ServiceUnavailableError
+				503 : ServiceUnavailableError,
+				504 : GatewayTimeoutError
 }
 
 def handle_error(error):
-	exc = err_dict[error.code](error)
-	exc.__cause__ = None
-	raise exc
+	try:
+		exc = err_dict[error.code](error)
+	except KeyError as e:
+		return HTTPError(error)
+	return exc

@@ -140,7 +140,9 @@ class Client(object):
         try:
             return opener.open(request)
         except HTTPError as err:
-            handle_error(err)
+            exc = handle_error(err)
+            exc.__cause__ = None
+            raise exc
 
     def _(self, name):
         """Add variable values to the url.
