@@ -148,6 +148,8 @@ class TestClient(unittest.TestCase):
         r = mock_client.delete()
         self.assertEqual(r.status_code, 204)
 
+        mock_client.response_code = 400
+        self.assertRaises(BadRequestsError,mock_client.get)
 
 if __name__ == '__main__':
     unittest.main()
