@@ -5,6 +5,7 @@ try:
 except ImportError:
     import unittest
 from python_http_client.client import Client, Response , BadRequestsError
+from python_http_client.exceptions import BadRequestsError
 
 
 try:
