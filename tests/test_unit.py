@@ -4,7 +4,7 @@ try:
     import unittest2 as unittest
 except ImportError:
     import unittest
-from python_http_client.client import Client, Response
+from python_http_client.client import Client, Response , BadRequestsError
 
 
 try:
